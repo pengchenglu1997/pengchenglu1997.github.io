@@ -5,228 +5,369 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pengcheng Lu</title>
 <meta name="description" content="Pengcheng Lu studies how AI systems judge cultural works, starting with books.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='6' width='7' height='22' rx='1' fill='%232c4777'/%3E%3Crect x='13' y='3' width='6' height='25' rx='1' fill='%2336614f'/%3E%3Crect x='21' y='9' width='7' height='19' rx='1' fill='%23b08427'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,650;1,7..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,650;1,7..72,400&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f5f6f8;
-    --ink: #1d2433;
-    --ink-soft: #4a5263;
-    --rule: #d9dde4;
-    --link: #2e4a7d;
-    --spine-blue: #2e4a7d;
-    --spine-green: #3d6b57;
-    --spine-red: #7a2e3a;
-    --spine-gold: #b8892a;
-    --spine-faded: #d3d7de;
-    --shelf: #8a7a66;
+    --paper: #f4f5f7;
+    --surface: #ffffff;
+    --ink: #1b2230;
+    --ink-soft: #535b6b;
+    --rule: #dde1e7;
+    --accent: #2c4777;
+    --spine-1: #2c4777;
+    --spine-2: #36614f;
+    --spine-3: #74303b;
+    --spine-4: #b08427;
+    --spine-faded: #d7dbe1;
+    --board: #8c7b66;
+    --board-edge: #6f604e;
+    --serif: "Literata", Georgia, serif;
+    --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
   }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #13171e;
+      --surface: #1b2029;
+      --ink: #e7e9ee;
+      --ink-soft: #a3aab8;
+      --rule: #2c3340;
+      --accent: #9db4e0;
+      --spine-1: #4d6ba3;
+      --spine-2: #4f8a71;
+      --spine-3: #a34a58;
+      --spine-4: #c99b3c;
+      --spine-faded: #2e3541;
+      --board: #6e604f;
+      --board-edge: #54493c;
+    }
+  }
+
   * { box-sizing: border-box; }
-  html { font-size: 112.5%; }
+  html { font-size: 106.25%; -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
     background: var(--paper);
     color: var(--ink);
-    font-family: "Literata", Georgia, serif;
+    font-family: var(--serif);
     font-optical-sizing: auto;
-    line-height: 1.6;
+    line-height: 1.62;
   }
-  .page {
-    max-width: 44rem;
-    margin: 0 auto;
-    padding: 3rem 1.25rem 4rem;
-  }
-  a { color: var(--link); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+  a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
   a:hover { text-decoration-thickness: 2px; }
-  a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
 
-  .site-nav {
-    display: flex;
-    justify-content: flex-end;
-    align-items: baseline;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 3.5rem;
-    font-size: 0.9rem;
+  /* Layout: identity column on the left, work on the right */
+  .layout {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: 4.5rem;
   }
-  .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.25rem; flex-wrap: wrap; }
-
-  h1 {
-    font-size: 2.6rem;
-    line-height: 1.1;
+  .identity { position: sticky; top: 4rem; align-self: start; }
+  .identity h1 {
+    font-size: 2.35rem;
+    line-height: 1.08;
     font-weight: 650;
-    letter-spacing: -0.01em;
-    margin: 0 0 0.75rem;
+    letter-spacing: -0.015em;
+    margin: 0 0 1rem;
   }
-  .lede {
-    font-size: 1.2rem;
+  .identity .role {
+    font-family: var(--sans);
+    font-size: 0.86rem;
     line-height: 1.5;
     color: var(--ink-soft);
-    margin: 0 0 2.5rem;
-    max-width: 34rem;
+    margin: 0 0 1.25rem;
   }
+  .identity .focus { font-size: 1.05rem; line-height: 1.5; margin: 0 0 1.75rem; }
+  .links { list-style: none; margin: 0 0 1.75rem; padding: 0; font-family: var(--sans); font-size: 0.92rem; }
+  .links li { padding: 0.45rem 0; border-top: 1px solid var(--rule); }
+  .links li:last-child { border-bottom: 1px solid var(--rule); }
+  .links a { text-decoration: none; display: flex; justify-content: space-between; }
+  .links a span { color: var(--ink-soft); font-size: 0.82rem; }
+  .links a:hover span { color: var(--accent); }
+  .status-note { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-soft); margin: 0; }
 
-  /* The shelf */
-  .shelf-figure { margin: 0 0 3rem; }
+  .work { max-width: 40rem; }
+
+  /* The shelf: the one memorable element on the page */
+  .shelf-figure {
+    margin: 0 0 4rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.5rem 1.5rem 1.25rem;
+  }
+  .shelf-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 3px;
+    margin-bottom: 1.5rem;
+    background: var(--paper);
+  }
+  .shelf-toggle button {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.4rem 0.95rem;
+    cursor: pointer;
+  }
+  .shelf-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
   .shelf {
     display: flex;
     align-items: flex-end;
-    gap: 3px;
-    height: 7.5rem;
-    padding: 0 2px;
-    border-bottom: 6px solid var(--shelf);
+    gap: 2px;
+    height: 9rem;
+    padding: 0 0.25rem;
   }
   .spine {
+    position: relative;
     min-width: 0;
     border-radius: 2px 2px 0 0;
-    transition: background-color 900ms ease;
+    transition: background-color 700ms ease, transform 700ms ease, opacity 700ms ease;
   }
-  .spine.c1 { background: var(--spine-blue); }
-  .spine.c2 { background: var(--spine-green); }
-  .spine.c3 { background: var(--spine-red); }
-  .spine.c4 { background: var(--spine-gold); }
-  .shelf.read .spine:not(.kept) { background: var(--spine-faded); }
+  /* binding bands near the top and bottom of each spine */
+  .spine::before, .spine::after {
+    content: "";
+    position: absolute;
+    left: 18%; right: 18%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.35);
+    transition: opacity 700ms ease;
+  }
+  .spine::before { top: 12%; }
+  .spine::after { bottom: 10%; }
+  .spine.c1 { background: var(--spine-1); }
+  .spine.c2 { background: var(--spine-2); }
+  .spine.c3 { background: var(--spine-3); }
+  .spine.c4 { background: var(--spine-4); }
+  .board {
+    height: 10px;
+    background: var(--board);
+    border-bottom: 4px solid var(--board-edge);
+    border-radius: 0 0 2px 2px;
+  }
+  .shelf.model .spine:not(.kept) { background: var(--spine-faded); transform: translateY(4px); }
+  .shelf.model .spine:not(.kept)::before,
+  .shelf.model .spine:not(.kept)::after { opacity: 0; }
+  .shelf.model .spine.kept { transform: translateY(-6px); }
   .shelf-figure figcaption {
-    margin-top: 0.9rem;
-    font-size: 0.9rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
     line-height: 1.55;
-    color: var(--ink-soft);
-    max-width: 36rem;
+    min-height: 3.1em;
   }
+  .shelf-figure .fine { display: block; font-family: var(--sans); font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.35rem; }
 
-  section { margin-top: 3rem; }
-  h2 {
-    font-size: 1.35rem;
-    font-weight: 650;
-    margin: 0 0 1rem;
-  }
+  section { margin-bottom: 3.75rem; }
+  h2 { font-size: 1.4rem; line-height: 1.25; font-weight: 650; margin: 0 0 1.1rem; }
   p { margin: 0 0 1rem; }
 
-  .works { list-style: none; margin: 0; padding: 0; }
-  .works li { padding: 0.9rem 0; border-top: 1px solid var(--rule); }
-  .works li:last-child { border-bottom: 1px solid var(--rule); }
-  .work-title { font-weight: 500; }
-  .work-meta { display: block; font-size: 0.88rem; color: var(--ink-soft); margin-top: 0.2rem; }
-  .note { font-size: 0.88rem; color: var(--ink-soft); margin-top: 0.8rem; }
+  /* Research list: status column + entry */
+  .entries { list-style: none; margin: 0; padding: 0; }
+  .entries li {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .entries li:last-child { border-bottom: 1px solid var(--rule); }
+  .entries .when { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-soft); padding-top: 0.2rem; }
+  .entries .title { font-weight: 500; display: block; }
+  .entries .meta { display: block; font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.25rem; }
+  .fine-print { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.9rem; }
 
-  .contact { list-style: none; margin: 0; padding: 0; }
-  .contact li { margin-bottom: 0.35rem; }
+  /* Project */
+  .project {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    text-decoration: none;
+    color: inherit;
+  }
+  .project img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: #fff;
+    display: block;
+  }
+  .project .title { font-weight: 650; font-size: 1.1rem; color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .project:hover .title { text-decoration-thickness: 2px; }
+  .project .meta { display: block; font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.4rem; }
+  .project p { margin: 0.6rem 0 0; font-size: 0.97rem; }
 
-  footer { margin-top: 4rem; font-size: 0.8rem; color: var(--ink-soft); }
+  footer { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft); }
 
+  @media (max-width: 60rem) {
+    .layout { grid-template-columns: minmax(0, 1fr); gap: 3rem; padding-top: 2.5rem; }
+    .identity { position: static; }
+    .work { max-width: none; }
+  }
   @media (max-width: 34rem) {
-    html { font-size: 106.25%; }
-    h1 { font-size: 2.1rem; }
-    .shelf { height: 5.5rem; gap: 2px; }
+    .layout { padding-left: 1rem; padding-right: 1rem; }
+    .identity h1 { font-size: 2rem; }
+    .shelf { height: 6.5rem; }
+    .shelf-figure { padding: 1.1rem 1rem 1rem; }
+    .entries li { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+    .project { grid-template-columns: minmax(0, 1fr); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .spine { transition: none; }
+    .spine, .spine::before, .spine::after { transition: none; }
   }
 </style>
 </head>
 <body>
-<div class="page">
-  <nav class="site-nav" aria-label="Main">
-    <ul>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="Pengcheng-Lu-CV.pdf">CV</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <main id="top">
+<div class="layout">
+  <header class="identity">
     <h1>Pengcheng Lu</h1>
-    <p class="lede">I study how AI systems judge cultural works, starting with books. I am an M.S. student at the University of Washington Information School.</p>
+    <p class="role">M.S. in Information Management<br>Information School, University of Washington</p>
+    <p class="focus">I study how AI systems judge cultural works, starting with books.</p>
+    <ul class="links">
+      <li><a href="mailto:lu1997@uw.edu">Email <span>lu1997@uw.edu</span></a></li>
+      <li><a href="Pengcheng-Lu-CV.pdf">CV <span>PDF</span></a></li>
+      <li><a href="https://github.com/pengchenglu1997">GitHub <span>pengchenglu1997</span></a></li>
+      <li><a href="https://www.linkedin.com/in/pengchenglu">LinkedIn <span>pengchenglu</span></a></li>
+    </ul>
+    <p class="status-note">Applying to PhD programs for Fall 2027.</p>
+  </header>
 
+  <main class="work">
     <figure class="shelf-figure">
-      <div class="shelf" id="shelf" role="img" aria-label="Illustration: a shelf of books where only a few at one end keep their color."></div>
-      <figcaption>Asked which books are popular on BookTok, language models return a small, repeated set of the most-shelved titles. Much of what readers pay attention to never reaches the model. (Illustration, not data.)</figcaption>
+      <div class="shelf-toggle" role="group" aria-label="Compare the readers' shelf with the model's answer">
+        <button type="button" id="btn-readers" aria-pressed="true">Readers' shelf</button>
+        <button type="button" id="btn-model" aria-pressed="false">Model's answer</button>
+      </div>
+      <div class="shelf" id="shelf" aria-hidden="true"></div>
+      <div class="board" aria-hidden="true"></div>
+      <figcaption>
+        <span id="caption" aria-live="polite">A reading platform's shelf records what many readers paid attention to. Switch to see what a language model returns.</span>
+        <span class="fine">Illustration of a finding, not a plot of the data.</span>
+      </figcaption>
     </figure>
 
     <section id="about" aria-labelledby="about-h">
       <h2 id="about-h">About</h2>
-      <p>Best-seller lists, library records and reading communities like BookTok all record what readers pay attention to. Language models learn from these records and now judge books whenever someone asks what to read next. My research measures which of these signals a model can read and carry, and which are lost.</p>
-      <p>I treat measurement as the hard part. I preregister confirmatory studies, use equivalence tests before calling a result null, and check how records were built before trusting them. I am applying to PhD programs for Fall 2027.</p>
+      <p>Best-seller lists, library records and reading communities like BookTok all record what readers pay attention to. Language models learn from these records, and they now judge books whenever someone asks what to read next. My research measures which of these signals a model can read and carry, and which are lost.</p>
+      <p>I treat measurement as the hard part. I preregister confirmatory studies, run equivalence tests before calling a result null, and check how a record was built before I trust it.</p>
     </section>
 
     <section id="research" aria-labelledby="research-h">
       <h2 id="research-h">Research</h2>
-      <ul class="works">
+      <ul class="entries">
         <li>
-          <span class="work-title">Which wording of a cultural signal moves a model's judgment of a book</span>
-          <span class="work-meta">With Taixin Zhang. Controlled experiments on seven open-weight models. Under review, 2026.</span>
+          <span class="when">Under review</span>
+          <div>
+            <span class="title">Which wording of a cultural signal moves a model's judgment of a book</span>
+            <span class="meta">With Taixin Zhang. Controlled experiments on seven open-weight language models.</span>
+          </div>
         </li>
         <li>
-          <span class="work-title">How language models reorder the record of a platform reading culture (BookTok)</span>
-          <span class="work-meta">Preregistered study across four model families. Under review, 2026.</span>
+          <span class="when">Under review</span>
+          <div>
+            <span class="title">How language models reorder the record of a platform reading culture</span>
+            <span class="meta">A preregistered study of BookTok across four model families.</span>
+          </div>
         </li>
         <li>
-          <span class="work-title">Whether models' claims about contemporary fiction can be verified against public text</span>
-          <span class="work-meta">With Taixin Zhang. Under review, 2026.</span>
+          <span class="when">Under review</span>
+          <div>
+            <span class="title">Whether models' claims about contemporary fiction can be verified against public text</span>
+            <span class="meta">With Taixin Zhang.</span>
+          </div>
         </li>
         <li>
-          <span class="work-title">New York Times best-seller lists and public-library borrowing</span>
-          <span class="work-meta">With Neel Gupta and Melanie Walsh. About 20 million Seattle Public Library checkouts linked to the list archive, 2008–2026. In preparation.</span>
+          <span class="when">In preparation</span>
+          <div>
+            <span class="title">New York Times best-seller lists and public-library borrowing</span>
+            <span class="meta">With Neel Gupta and Melanie Walsh. The list archive from 2008 to 2026, linked to about 20 million Seattle Public Library checkouts.</span>
+          </div>
         </li>
       </ul>
-      <p class="note">Paper titles and preprints will be posted after review.</p>
+      <p class="fine-print">Full titles and preprints will be posted after review.</p>
     </section>
 
-    <section id="projects" aria-labelledby="projects-h">
-      <h2 id="projects-h">Projects</h2>
-      <ul class="works">
-        <li>
-          <a class="work-title" href="https://pengchenglu1997.github.io/interactive-narrative/">One IKEA Model, Two Regional Playbooks</a>
-          <span class="work-meta">An interactive article on how IKEA responded to housing affordability pressure in Western and East Asian markets. With Samantha Wang, 2026.</span>
-        </li>
-        <li>
-          <a class="work-title" href="https://pengchenglu1997.github.io/imt-561-homeworks/?tab=tab2">Spoken Time</a>
-          <span class="work-meta">A clock that tells the time the way people say it, such as "almost half past." 2026.</span>
-        </li>
-      </ul>
+    <section id="project" aria-labelledby="project-h">
+      <h2 id="project-h">Project</h2>
+      <a class="project" href="https://pengchenglu1997.github.io/interactive-narrative/">
+        <img src="ikea-thumb.jpg" alt="Title screen of the interactive article One IKEA Model, Two Regional Playbooks" width="628" height="470" loading="lazy">
+        <div>
+          <span class="title">One IKEA Model, Two Regional Playbooks</span>
+          <span class="meta">Interactive article with Samantha Wang, 2026</span>
+          <p>How IKEA adapted to housing affordability pressure in Western and East Asian markets, told through a store map, a timeline and a playbook chart built from six sourced datasets.</p>
+        </div>
+      </a>
     </section>
 
     <section id="teaching" aria-labelledby="teaching-h">
       <h2 id="teaching-h">Teaching and service</h2>
-      <p>Reader for IMT 550, Policy and Ethics in Information Management, University of Washington, Summer 2026. Reviewer for ICWSM 2027.</p>
-    </section>
-
-    <section id="contact" aria-labelledby="contact-h">
-      <h2 id="contact-h">Contact</h2>
-      <ul class="contact">
-        <li><a href="mailto:lu1997@uw.edu">lu1997@uw.edu</a></li>
-        <li><a href="Pengcheng-Lu-CV.pdf">CV (PDF)</a></li>
-        <li><a href="https://github.com/pengchenglu1997">GitHub</a></li>
-        <li><a href="https://www.linkedin.com/in/pengchenglu">LinkedIn</a></li>
+      <ul class="entries">
+        <li>
+          <span class="when">2026</span>
+          <div><span class="title">Reviewer, ICWSM 2027</span></div>
+        </li>
+        <li>
+          <span class="when">Summer 2026</span>
+          <div>
+            <span class="title">Reader, IMT 550: Policy and Ethics in Information Management</span>
+            <span class="meta">University of Washington Information School</span>
+          </div>
+        </li>
       </ul>
     </section>
-  </main>
 
-  <footer>Updated October 2026.</footer>
+    <footer>Updated October 2026</footer>
+  </main>
 </div>
 
 <script>
   (function () {
     var shelf = document.getElementById('shelf');
-    // Fixed widths and heights so the shelf looks the same on every visit.
-    var widths  = [18,14,22,16,12,20,15,24,13,17,19,11,21,16,14,23,12,18,15,20,13,17,22,14,16,12,19,21,15,13,18,24,14,16,20,12,17,15,22,13,19,16,14,21,12,18,15,17];
-    var heights = [92,80,98,86,74,95,83,100,70,88,90,66,96,78,84,99,72,87,81,93,69,85,97,76,89,64,91,94,79,71,86,98,75,82,92,68,88,80,95,73,90,77,83,96,65,87,79,84];
-    var kept = 6; // the first few spines keep their color
-    var colors = ['c1','c2','c3','c4'];
+    var caption = document.getElementById('caption');
+    var btnReaders = document.getElementById('btn-readers');
+    var btnModel = document.getElementById('btn-model');
+
+    // Fixed proportions so the shelf looks the same on every visit.
+    var widths  = [18,14,22,16,12,20,15,24,13,17,19,11,21,16,14,23,12,18,15,20,13,17,22,14,16,12,19,21,15,13,18,24,14,16,20,12,17,15,22,13,19,16,14,21,12,18,15,17,20,13,16,22];
+    var heights = [92,80,98,86,74,95,83,100,70,88,90,66,96,78,84,99,72,87,81,93,69,85,97,76,89,64,91,94,79,71,86,98,75,82,92,68,88,80,95,73,90,77,83,96,65,87,79,84,91,74,86,97];
+    var kept = 6;
     var narrow = window.matchMedia('(max-width: 34rem)').matches;
     var count = narrow ? 30 : widths.length;
     for (var i = 0; i < count; i++) {
       var s = document.createElement('div');
-      s.className = 'spine ' + colors[(i * 7 + 3) % 4] + (i < kept ? ' kept' : '');
+      s.className = 'spine c' + (((i * 7 + 3) % 4) + 1) + (i < kept ? ' kept' : '');
       s.style.flex = widths[i] + ' 1 0px';
       s.style.height = heights[i] + '%';
       shelf.appendChild(s);
     }
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) { shelf.classList.add('read'); }
-    else { setTimeout(function () { shelf.classList.add('read'); }, 900); }
+
+    var text = {
+      readers: "A reading platform's shelf records what many readers paid attention to. Switch to see what a language model returns.",
+      model: "Asked which books are popular on BookTok, models return a small, repeated set from the top of the shelf. Most of what readers paid attention to does not come back."
+    };
+    function show(view) {
+      var isModel = view === 'model';
+      shelf.classList.toggle('model', isModel);
+      btnModel.setAttribute('aria-pressed', String(isModel));
+      btnReaders.setAttribute('aria-pressed', String(!isModel));
+      caption.textContent = isModel ? text.model : text.readers;
+    }
+    btnReaders.addEventListener('click', function () { show('readers'); });
+    btnModel.addEventListener('click', function () { show('model'); });
   })();
 </script>
 </body>
