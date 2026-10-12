@@ -190,9 +190,26 @@
   }
   .project .title { font-weight: 650; font-size: 1.1rem; color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
   .project:hover .title { text-decoration-thickness: 2px; }
+  .project .title.project-plain { color: var(--ink); text-decoration: none; }
   .project .meta { display: block; font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.4rem; }
   .project p { margin: 0.6rem 0 0; font-size: 0.97rem; }
 
+  .project + .project { margin-top: 1.75rem; }
+  .tile {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    background: var(--spine-2);
+    color: #fff;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.9rem 1rem;
+    font-family: var(--serif);
+    font-weight: 650;
+    font-size: 1.35rem;
+    line-height: 1.1;
+  }
   footer { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft); }
 
   @media (max-width: 60rem) {
@@ -286,7 +303,7 @@
     </section>
 
     <section id="project" aria-labelledby="project-h">
-      <h2 id="project-h">Project</h2>
+      <h2 id="project-h">Projects</h2>
       <a class="project" href="https://pengchenglu1997.github.io/interactive-narrative/">
         <img src="ikea-thumb.jpg" alt="Title screen of the interactive article One IKEA Model, Two Regional Playbooks" width="628" height="470" loading="lazy">
         <div>
@@ -295,6 +312,14 @@
           <p>How IKEA adapted to housing affordability pressure in Western and East Asian markets, told through a store map, a timeline and a playbook chart built from six sourced datasets.</p>
         </div>
       </a>
+      <div class="project">
+        <div class="tile" aria-hidden="true">MindBridge</div>
+        <div>
+          <span class="title project-plain">MindBridge</span>
+          <span class="meta">Alternate, UW Hollomon Health Innovation Challenge, 2026</span>
+          <p>An early-warning platform for campus counseling. I led a five-person team in designing a system where AI agents help counselors notice students who may need support, while the highest-risk cases follow fixed clinical protocols and no language model makes the decision. We interviewed counseling practitioners and reviewed the design against FERPA and HIPAA.</p>
+        </div>
+      </div>
     </section>
 
     <section id="teaching" aria-labelledby="teaching-h">
@@ -316,6 +341,13 @@
           <div>
             <span class="title">Reader, IMT 550: Policy and Ethics in Information Management</span>
             <span class="meta">University of Washington Information School</span>
+          </div>
+        </li>
+        <li>
+          <span class="when">2025</span>
+          <div>
+            <span class="title">2nd place, Fintech track, HuskyHack</span>
+            <span class="meta">University of Washington</span>
           </div>
         </li>
       </ul>
